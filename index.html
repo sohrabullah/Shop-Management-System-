@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taimur Shop Management System</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+section {
+    background: white;
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+.product-preview img {
+    width: 100px;
+    height: auto;
+    display: block;
+    margin: 10px auto;
+}
+
+form {
+    margin-top: 20px;
+}
+
+form input, form select {
+    padding: 8px;
+    width: 100%;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+    }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Taimur Shop Management System</h1>
+    <p id="current-date"></p>
+</header>
+
+<div class="container">
+    <!-- Product Inventory Section -->
+    <section class="product-inventory">
+        <h2>📦 Product Inventory</h2>
+        <table id="product-inventory">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Stock</th>
+                    <th>Price (PKR)</th>
+                    <th>Update Stock</th>
+                    <th>Update Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Samosa (سموسہ)</td>
+                    <td id="stock-samosa">10</td>
+                    <td id="price-samosa">100</td>
+                    <td><input type="number" id="input-stock-samosa"></td>
+                    <td><input type="number" id="input-price-samosa"></td>
+                    <td><button onclick="updateProductInventory('samosa')">Update</button></td>
+                </tr>
+                <tr>
+                    <td>Pakora (پکورا)</td>
+                    <td id="stock-pakora">15</td>
+                    <td id="price-pakora">80</td>
+                    <td><input type="number" id="input-stock-pakora"></td>
+                    <td><input type="number" id="input-price-pakora"></td>
+                    <td><button onclick="updateProductInventory('pakora')">Update</button></td>
+                </tr>
+                <tr>
+                    <td>Jalebi (جلیبی)</td>
+                    <td id="stock-jalebi">5</td>
+                    <td id="price-jalebi">120</td>
+                    <td><input type="number" id="input-stock-jalebi"></td>
+                    <td><input type="number" id="input-price-jalebi"></td>
+                    <td><button onclick="updateProductInventory('jalebi')">Update</button></td>
+                </tr>
+                <tr>
+                    <td>Aloo Chips (آلو چپس)</td>
+                    <td id="stock-aloo-chips">8</td>
+                    <td id="price-aloo-chips">150</td>
+                    <td><input type="number" id="input-stock-aloo-chips"></td>
+                    <td><input type="number" id="input-price-aloo-chips"></td>
+                    <td><button onclick="updateProductInventory('aloo-chips')">Update</button></td>
+                </tr>
+                <tr>
+                    <td>Namak Pare (نمک پارے)</td>
+                    <td id="stock-namak-pare">12</td>
+                    <td id="price-namak-pare">90</td>
+                    <td><input type="number" id="input-stock-namak-pare"></td>
+                    <td><input type="number" id="input-price-namak-pare"></td>
+                    <td><button onclick="updateProductInventory('namak-pare')">Update</button></td>
+                </tr>
+                <tr>
+                    <td>Papad (پاپڑ)</td>
+                    <td id="stock-papad">20</td>
+                    <td id="price-papad">60</td>
+                    <td><input type="number" id="input-stock-papad"></td>
+                    <td><input type="number" id="input-price-papad"></td>
+                    <td><button onclick="updateProductInventory('papad')">Update</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Ingredient Inventory Section -->
+    <section class="ingredient-inventory">
+        <h2>🥘 Ingredient Inventory</h2>
+        <table id="ingredient-inventory">
+            <thead>
+                <tr>
+                    <th>Ingredient</th>
+                    <th>Stock</th>
+                    <th>Price (PKR)</th>
+                    <th>Update Stock</th>
+                    <th>Update Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>All-purpose flour (Maida) (میدہ)</td>
+                    <td id="stock-flour">20</td>
+                    <td id="price-flour">50</td>
+                    <td><input type="number" id="input-stock-flour"></td>
+                    <td><input type="number" id="input-price-flour"></td>
+                    <td><button onclick="updateIngredientInventory('flour')">Update</button></td>
+                </tr>
+                <tr>
+                    <td>Chickpea flour (Besan) (بیسن)</td>
+                    <td id="stock-besan">30</td>
+                    <td id="price-besan">60</td>
+                    <td><input type="number" id="input-stock-besan"></td>
+                    <td><input type="number" id="input-price-besan"></td>
+                    <td><button onclick="updateIngredientInventory('besan')">Update</button></td>
+                </tr>
+                <tr>
+                    <td>Oil (تیل)</td>
+                    <td id="stock-oil">25</td>
+                    <td id="price-oil">150</td>
+                    <td><input type="number" id="input-stock-oil"></td>
+                    <td><input type="number" id="input-price-oil"></td>
+                    <td><button onclick="updateIngredientInventory('oil')">Update</button></td>
+                </tr>
+                <tr>
+                    <td>Salt (نمک)</td>
+                    <td id="stock-salt">50</td>
+                    <td id="price-salt">10</td>
+                    <td><input type="number" id="input-stock-salt"></td>
+                    <td><input type="number" id="input-price-salt"></td>
+                    <td><button onclick="updateIngredientInventory('salt')">Update</button></td>
+                </tr>
+                <tr>
+                    <td>Red Chili Powder (مرچ پاؤڈر)</td>
+                    <td id="stock-chili">35</td>
+                    <td id="price-chili">40</td>
+                    <td><input type="number" id="input-stock-chili"></td>
+                    <td><input type="number" id="input-price-chili"></td>
+                    <td><button onclick="updateIngredientInventory('chili')">Update</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Daily Sales Input Section -->
+    <section class="sales-input">
+        <h2>💰 Daily Sales Input</h2>
+        <form id="sales-form">
+            <label for="product-select">Select Product:</label>
+            <select id="product-select">
+                <option value="samosa">Samosa (سموسہ)</option>
+                <option value="pakora">Pakora (پکورا)</option>
+                <option value="jalebi">Jalebi (جلیبی)</option>
+                <option value="aloo-chips">Aloo Chips (آلو چپس)</option>
+                <option value="namak-pare">Namak Pare (نمک پارے)</option>
+                <option value="papad">Papad (پاپڑ)</option>
+            </select>
+
+            <div class="product-preview">
+                <img id="product-image" src="" alt="Product Image">
+            </div>
+
+            <label for="quantity">Quantity (kg):</label>
+            <input type="number" id="quantity" required min="0">
+
+            <label for="price">Price (PKR):</label>
+            <input type="text" id="price" readonly>
+
+            <button type="button" id="add-sale">Add Sale</button>
+        </form>
+
+        <h3>📊 Sales Summary</h3>
+        <table>
+            <tr><th>Total Sales (PKR)</th><td id="total-sales">0.00</td></tr>
+            <tr><th>Items Sold (kg)</th><td id="items-sold">0</td></tr>
+            <tr><th>Sales Growth</th><td id="sales-growth">0%</td></tr>
+        </table>
+
+        <!-- Sales Chart -->
+        <h3>📅 Sales Chart</h3>
+        <canvas id="sales-chart"></canvas>
+
+        <h3>📈 Sales History</h3>
+        <table id="sales-history">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price (PKR)</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Sales history rows will go here -->
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Loan Management Section -->
+    <section class="loan-management">
+        <h2>💳 Loan Management</h2>
+        <form id="loan-form">
+            <label for="loan-name">Loaner Name:</label>
+            <input type="text" id="loan-name" required>
+
+            <label for="loan-amount">Loan Amount (PKR):</label>
+            <input type="number" id="loan-amount" required min="0">
+
+            <label for="loan-type">Loan Type:</label>
+            <select id="loan-type">
+                <option value="receive">To Receive</option>
+                <option value="pay">To Pay</option>
+            </select>
+
+            <button type="button" id="add-loan">Add Loan</button>
+        </form>
+
+        <h3>📌 Loan Summary</h3>
+        <p id="loan-message">No loan records yet.</p>
+
+        <h3>📚 Loan History</h3>
+        <table id="loan-history">
+            <thead>
+                <tr>
+                    <th>Loaner Name</th>
+                    <th>Loan Amount (PKR)</th>
+                    <th>Loan Type</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Loan history rows will go here -->
+            </tbody>
+        </table>
+    </section>
+</div>
+
+<script>
+     // Sample Data for Products, Ingredients, and Loans
+const productData = {
+    samosa: { stock: 10, price: 100 },
+    pakora: { stock: 15, price: 80 },
+    jalebi: { stock: 5, price: 120 },
+    'aloo-chips': { stock: 8, price: 150 },
+    'namak-pare': { stock: 12, price: 90 },
+    papad: { stock: 20, price: 60 }
+};
+
+const ingredientData = {
+    flour: { stock: 20, price: 50 },
+    besan: { stock: 30, price: 60 },
+    oil: { stock: 25, price: 150 },
+    salt: { stock: 50, price: 10 },
+    chili: { stock: 35, price: 40 }
+};
+
+// Sales and Loan History Arrays
+let salesHistory = [];
+let loanHistory = [];
+
+// Current Date Display
+function displayCurrentDate() {
+    const currentDate = new Date().toLocaleDateString();
+    document.getElementById('current-date').innerText = `Date: ${currentDate}`;
+}
+
+// Update Product Inventory
+function updateProductInventory(product) {
+    const stockInput = document.getElementById(`input-stock-${product}`);
+    const priceInput = document.getElementById(`input-price-${product}`);
+    
+    const newStock = parseInt(stockInput.value);
+    const newPrice = parseInt(priceInput.value);
+    
+    if (!isNaN(newStock)) {
+        productData[product].stock = newStock;
+        document.getElementById(`stock-${product}`).innerText = newStock;
+    }
+    
+    if (!isNaN(newPrice)) {
+        productData[product].price = newPrice;
+        document.getElementById(`price-${product}`).innerText = newPrice;
+    }
+
+    stockInput.value = '';
+    priceInput.value = '';
+}
+
+// Update Ingredient Inventory
+function updateIngredientInventory(ingredient) {
+    const stockInput = document.getElementById(`input-stock-${ingredient}`);
+    const priceInput = document.getElementById(`input-price-${ingredient}`);
+    
+    const newStock = parseInt(stockInput.value);
+    const newPrice = parseInt(priceInput.value);
+    
+    if (!isNaN(newStock)) {
+        ingredientData[ingredient].stock = newStock;
+        document.getElementById(`stock-${ingredient}`).innerText = newStock;
+    }
+    
+    if (!isNaN(newPrice)) {
+        ingredientData[ingredient].price = newPrice;
+        document.getElementById(`price-${ingredient}`).innerText = newPrice;
+    }
+
+    stockInput.value = '';
+    priceInput.value = '';
+}
+
+// Handle Sale Addition
+function addSale() {
+    const productSelect = document.getElementById('product-select');
+    const quantityInput = document.getElementById('quantity');
+    const priceInput = document.getElementById('price');
+    
+    const product = productSelect.value;
+    const quantity = parseInt(quantityInput.value);
+    
+    if (isNaN(quantity) || quantity <= 0) {
+        alert("Please enter a valid quantity.");
+        return;
+    }
+
+    const price = productData[product].price;
+    const saleAmount = quantity * price;
+
+    // Update Sales Summary
+    const totalSalesElement = document.getElementById('total-sales');
+    const itemsSoldElement = document.getElementById('items-sold');
+    const salesGrowthElement = document.getElementById('sales-growth');
+    
+    let totalSales = parseFloat(totalSalesElement.innerText);
+    totalSales += saleAmount;
+    totalSalesElement.innerText = totalSales.toFixed(2);
+
+    let itemsSold = parseInt(itemsSoldElement.innerText);
+    itemsSold += quantity;
+    itemsSoldElement.innerText = itemsSold;
+
+    // Record Sale History
+    const salesRow = document.createElement('tr');
+    const date = new Date().toLocaleDateString();
+    salesRow.innerHTML = `<td>${product}</td><td>${quantity}</td><td>${saleAmount.toFixed(2)}</td><td>${date}</td>`;
+    document.getElementById('sales-history').querySelector('tbody').appendChild(salesRow);
+
+    // Update Sales Chart
+    updateSalesChart();
+
+    // Reset input fields
+    quantityInput.value = '';
+    priceInput.value = saleAmount.toFixed(2);
+}
+
+// Update Sales Chart
+function updateSalesChart() {
+    const salesData = {
+        labels: ['Samosa', 'Pakora', 'Jalebi', 'Aloo Chips', 'Namak Pare', 'Papad'],
+        datasets: [{
+            label: 'Sales (PKR)',
+            data: Object.keys(productData).map(product => {
+                return productData[product].stock * productData[product].price;
+            }),
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    };
+
+    const ctx = document.getElementById('sales-chart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: salesData,
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+// Handle Loan Addition
+function addLoan() {
+    const loanNameInput = document.getElementById('loan-name');
+    const loanAmountInput = document.getElementById('loan-amount');
+    const loanTypeInput = document.getElementById('loan-type');
+    
+    const loanName = loanNameInput.value.trim();
+    const loanAmount = parseFloat(loanAmountInput.value);
+    const loanType = loanTypeInput.value;
+
+    if (!loanName || isNaN(loanAmount) || loanAmount <= 0) {
+        alert("Please enter valid loan details.");
+        return;
+    }
+
+    // Record Loan History
+    const loanRow = document.createElement('tr');
+    const date = new Date().toLocaleDateString();
+    loanRow.innerHTML = `<td>${loanName}</td><td>${loanAmount}</td><td>${loanType}</td><td>${date}</td>`;
+    document.getElementById('loan-history').querySelector('tbody').appendChild(loanRow);
+
+    loanHistory.push({ loanName, loanAmount, loanType, date });
+
+    // Update Loan Message
+    const loanMessage = document.getElementById('loan-message');
+    loanMessage.innerText = `There are ${loanHistory.length} loan records.`;
+
+    // Reset input fields
+    loanNameInput.value = '';
+    loanAmountInput.value = '';
+}
+
+// Add Event Listeners
+document.getElementById('add-sale').addEventListener('click', addSale);
+document.getElementById('add-loan').addEventListener('click', addLoan);
+
+// Update the price field when the product is selected
+document.getElementById('product-select').addEventListener('change', function() {
+    const productSelect = document.getElementById('product-select');
+    const priceInput = document.getElementById('price');
+    const product = productSelect.value;
+    
+    // Set the price in the readonly price field
+    priceInput.value = productData[product].price;
+});
+
+// Initialize
+displayCurrentDate();
+</script>
+</body>
+  </html>
